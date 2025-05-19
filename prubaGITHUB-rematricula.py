@@ -28,25 +28,25 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 
+from pathlib import Path
+
 # ========================================
 # === RUTAS A IMÁGENES ===================
 # ========================================
-carpetaImagenes = Path(r"C:\Users\juan_garnicac\OneDrive - Corporación Unificada Nacional de Educación Superior - CUN\Imágenes")
-logoCun = carpetaImagenes / "CUN-1200X1200.png"
-
+logoCun = Path("CUN-1200X1200.png")  # Imagen al mismo nivel del archivo principal
 
 # ========================================
 # === RUTAS A ARCHIVOS DE DATOS =========
 # ========================================
-carpeta_principal = Path(r"C:\Users\juan_garnicac\OneDrive - Corporación Unificada Nacional de Educación Superior - CUN\Documentos\Rematricula-20250509T184654Z-001")
-directorio_principal = carpeta_principal / "TranscribirAudios"
+ruta_archivo_reporte_puntaje = Path("reporte_llamadas_asesores.xlsx")
+ruta_archivo_sentimientos = Path("resumen_llamadas.xlsx")
 
-ruta_archivo_reporte_puntaje = directorio_principal / "reporte_llamadas_asesores.xlsx"
-ruta_archivo_sentimientos = directorio_principal / "resumen_llamadas.xlsx"
-nombre_archivo_reporte_acordeon = "acordon1.xlsx" # Corregido el nombre a 'acordeon.xlsx'
+nombre_archivo_reporte_acordeon = "acordeon1.xlsx"  # Asegúrate de que el nombre esté bien
 nombre_archivo_resultado_llamada_directo = "resultados_llamadas_directo.xlsx"
-ruta_archivo_reporte_acordeon = directorio_principal / nombre_archivo_reporte_acordeon
-puntejeAcordeoneros = directorio_principal / nombre_archivo_resultado_llamada_directo
+
+ruta_archivo_reporte_acordeon = Path(nombre_archivo_reporte_acordeon)
+puntejeAcordeoneros = Path(nombre_archivo_resultado_llamada_directo)
+
 
 # ========================================
 # === FUNCIONES DE SOPORTE ==============
