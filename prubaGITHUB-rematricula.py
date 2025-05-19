@@ -38,35 +38,15 @@ logoCun = carpetaImagenes / "CUN-1200X1200.png"
 # ========================================
 # === RUTAS A ARCHIVOS DE DATOS =========
 # ========================================
-# Define el directorio base RELATIVO dentro del repositorio en GitHub.
-# Esto asume que la carpeta 'TranscribirAudios' está en el mismo nivel
-# que tu script Python principal (prubaGITHUB-rematricula.py) en el repo.
-directorio_principal = Path("TranscribirAudios")
+carpeta_principal = Path(r"C:\Users\juan_garnicac\OneDrive - Corporación Unificada Nacional de Educación Superior - CUN\Documentos\Rematricula-20250509T184654Z-001")
+directorio_principal = carpeta_principal / "TranscribirAudios"
 
-# Ahora define las rutas de los archivos Excel usando el directorio_principal relativo
 ruta_archivo_reporte_puntaje = directorio_principal / "reporte_llamadas_asesores.xlsx"
-ruta_archivo_sentimientos = directorio_principal / "sentimientos_textblob.xlsx"
-
-# Corregir la ruta de resumen_llamadas.xlsx para que también use directorio_principal
-resumen_llamadita = directorio_principal / "resumen_llamadas.xlsx"
-
-# Asegúrate de que estos nombres de archivo coincidan exactamente con los que subiste a GitHub
-nombre_archivo_reporte_acordeon = "acordon1.xlsx"
+ruta_archivo_sentimientos = directorio_principal / "resumen_llamadas.xlsx"
+nombre_archivo_reporte_acordeon = "acordon1.xlsx" # Corregido el nombre a 'acordeon.xlsx'
 nombre_archivo_resultado_llamada_directo = "resultados_llamadas_directo.xlsx"
-
-ruta_archivo_reporte_acordeon = directorio_principal / nombre_archivo_reporte_acordeon # Debería ser acordon1.xlsx
-puntejeAcordeoneros = directorio_principal / nombre_archivo_resultado_llamada_directo # Debería ser resultados_llamadas_directo.xlsx
-
-# Nota: Hay una inconsistencia en tu código original donde puntejeAcordeoneros y
-# ruta_archivo_reporte_puntaje apuntan a archivos diferentes pero parecen usarse
-# para propósitos similares (puntajes/acordeones). Asegúrate de que las variables
-# y los archivos que cargan sean los correctos según la lógica de tu app.
-# Sin embargo, el error que ves ahora es solo por la RUTA.
-
-
-
-
-
+ruta_archivo_reporte_acordeon = directorio_principal / nombre_archivo_reporte_acordeon
+puntejeAcordeoneros = directorio_principal / nombre_archivo_resultado_llamada_directo
 
 # ========================================
 # === FUNCIONES DE SOPORTE ==============
