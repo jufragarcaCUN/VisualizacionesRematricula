@@ -111,12 +111,17 @@ def corregir_nombre(nombre):
     return correcciones.get(nombre_str, nombre_str)
 
 
+from pathlib import Path
+import pandas as pd
+import streamlit as st
+
 # ========================================
 # === CARGA DE DATAFRAMES ===============
 # ========================================
+
+# Intentar cargar el archivo de puntajes
 try:
     df_puntajeAsesores = pd.read_excel(ruta_archivo_reporte_puntaje)
-    # Aplicar corrección de nombre inmediatamente después de cargar
     if 'asesor' in df_puntajeAsesores.columns:
         df_puntajeAsesores['asesor'] = df_puntajeAsesores['asesor'].apply(corregir_nombre)
 except FileNotFoundError:
@@ -126,19 +131,19 @@ except Exception as e:
     st.error(f"❌ Error al cargar puntajes desde '{ruta_archivo_reporte_puntaje}': {e}")
     df_puntajeAsesores = pd.DataFrame()
 
+# Intentar cargar el archivo de sentimientos
 try:
     df_POlaVssub = pd.read_excel(ruta_archivo_sentimientos)
-    # Aplicar corrección de nombre inmediatamente después de cargar
     if 'asesor' in df_POlaVssub.columns:
         df_POlaVssub['asesor'] = df_POlaVssub['asesor'].apply(corregir_nombre)
 
     if 'sentimiento_promedio_polaridad' in df_POlaVssub.columns:
-         df_POlaVssub.rename(columns={'sentimiento_promedio_polaridad': 'polarity'}, inplace=True)
-         if 'subjectivity' not in df_POlaVssub.columns:
-             df_POlaVssub['subjectivity'] = 0.5
+        df_POlaVssub.rename(columns={'sentimiento_promedio_polaridad': 'polarity'}, inplace=True)
+        if 'subjectivity' not in df_POlaVssub.columns:
+            df_POlaVssub['subjectivity'] = 0.5
     elif 'polarity' not in df_POlaVssub.columns:
-         st.error(f"❌ El archivo '{ruta_archivo_sentimientos.name}' no tiene las columnas de polaridad esperadas.")
-         df_POlaVssub = pd.DataFrame()
+        st.error(f"❌ El archivo '{ruta_archivo_sentimientos.name}' no tiene las columnas de polaridad esperadas.")
+        df_POlaVssub = pd.DataFrame()
 except FileNotFoundError:
     st.error(f"❌ No se encontró el archivo de Sentimientos: {ruta_archivo_sentimientos}")
     df_POlaVssub = pd.DataFrame()
@@ -146,11 +151,11 @@ except Exception as e:
     st.error(f"❌ Error al cargar sentimientos desde '{ruta_archivo_sentimientos}': {e}")
     df_POlaVssub = pd.DataFrame()
 
+# Intentar cargar el archivo acordeon
 try:
     df_acordeon = pd.read_excel(puntejeAcordeoneros)
-    # Aplicar corrección de nombre inmediatamente después de cargar
     if 'asesor' in df_acordeon.columns:
-         df_acordeon['asesor'] = df_acordeon['asesor'].apply(corregir_nombre)
+        df_acordeon['asesor'] = df_acordeon['asesor'].apply(corregir_nombre)
 except FileNotFoundError:
     st.error(f"❌ No se encontró el archivo de Acordeon: {puntejeAcordeoneros}. Asegúrate de que el merge se haya ejecutado y guardado correctamente.")
     df_acordeon = pd.DataFrame()
@@ -158,24 +163,18 @@ except Exception as e:
     st.error(f"❌ Error al cargar acordeon desde '{puntejeAcordeoneros}': {e}")
     df_acordeon = pd.DataFrame()
 
-
-# Ruta al archivo
-resumen_llamadita = Path(
-    r"C:\Users\juan_garnicac\OneDrive - Corporación Unificada Nacional de Educación Superior - CUN\Documentos\Rematricula-20250509T184654Z-001\TranscribirAudios\resumen_llamadas.xlsx"
-)
-
-# Intentamos leer el archivo y mostrar sus columnas
+# Intentar cargar resumen_llamadas.xlsx
 try:
-    df_resumen = pd.read_excel(resumen_llamadita)
+    df_resumen = pd.read_excel(ruta_archivo_sentimientos)
     df_resumen['asesor'] = df_resumen['asesor'].apply(corregir_nombre)
 except Exception as e:
-    st.error(f"⚠️ Ocurrió un error al leer el archivo: {e}")
+    st.error(f"⚠️ Ocurrió un error al leer el archivo '{ruta_archivo_sentimientos}': {e}")
+    df_resumen = pd.DataFrame()
 
-# --- Importar resultados_llamadas_directo ---
+# Cargar reporte de llamadas directo
 try:
     resultados_llamadas_directo = pd.read_excel(ruta_archivo_reporte_puntaje)
     print(f"Archivo {ruta_archivo_reporte_puntaje.name} importado correctamente.")
-    print(tabulate(resultados_llamadas_directo.head(), headers='keys', tablefmt='psql'))
 except FileNotFoundError:
     print(f"No se encontró el archivo: {ruta_archivo_reporte_puntaje}")
     resultados_llamadas_directo = pd.DataFrame()
@@ -183,7 +182,7 @@ except Exception as e:
     print(f"Error al importar el archivo {ruta_archivo_reporte_puntaje.name}: {e}")
     resultados_llamadas_directo = pd.DataFrame()
 
-# --- Importar acordeonYesid ---
+# Cargar acordeonYesid
 try:
     acordeonYesid = pd.read_excel(ruta_archivo_reporte_acordeon)
     st.success(f"Archivo {nombre_archivo_reporte_acordeon} cargado correctamente.")
